@@ -3,6 +3,7 @@ package lab5.file;
 import java.nio.file.Path;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -63,14 +64,18 @@ public class FileHandler implements IOHandler<String> {
         } catch (FileNotFoundException e) {
             System.err.println("[Error] File: " + filePath + " cannot be read");
             System.err.println(e.getMessage());
+        } catch (NoSuchElementException e) {
+            
         }
 
         return null;
     }
 
     public String readLastString() {
+        //System.out.println("I'm hereeeee" + scanner.nextLine());
         String lastString = null;
-        try (Scanner scanner = new Scanner(new FileInputStream(filePath.toFile()))) {
+        //System.out.println("I'm hereeeee" + scanner.nextLine());
+        try (Scanner scanner = new Scanner(filePath.toFile())) {
             System.out.println("I'm here" + scanner.nextLine());
             while (scanner.hasNextLine()) {
                 lastString = scanner.nextLine();
@@ -82,6 +87,8 @@ public class FileHandler implements IOHandler<String> {
         } catch (FileNotFoundException e) {
             System.err.println("[Error] File: " + filePath + " cannot be read");
             System.err.println(e.getMessage());
+        } catch (NoSuchElementException e) {
+
         }
 
         return null;

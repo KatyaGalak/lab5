@@ -5,6 +5,8 @@
 
 package lab5;
 
+import java.util.Arrays;
+
 import lab5.communication.Handler;
 
 //import lab5.commands.*;
@@ -24,7 +26,7 @@ public class App {
         try (Console console = new StandartConsole()) {
             new Handler(console).run();
         } catch (Exception e) {
-            System.err.println("[ERROR]");
+            System.err.println("[ERROR]" + Arrays.toString(e.getStackTrace()));
         }
         System.out.println(new App().getGreeting());
 
