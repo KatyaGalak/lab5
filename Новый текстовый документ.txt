@@ -1,0 +1,13 @@
+show
+clear
+Add
+Pol
+1
+455
+4456
+
+VIP
+09-11-2000 11:11:11
+5gdhdkd
+red
+executeScript script_1.txt
