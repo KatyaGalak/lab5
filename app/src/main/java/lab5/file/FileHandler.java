@@ -44,7 +44,7 @@ public class FileHandler implements IOHandler<String> {
             System.exit(1); // надо бы кидать исключение
         }
 
-        scanner = new Scanner(new FileInputStream(filePath.toFile()));
+        scanner = new Scanner(Files.newBufferedReader(filePath));
         outputStreamWriter = new OutputStreamWriter(new FileOutputStream(filePath.toFile(), mode));
     }
 
@@ -54,10 +54,16 @@ public class FileHandler implements IOHandler<String> {
 
     @Override
     public String read() {
-        StringBuilder readableString = new StringBuilder();
-        try (Scanner scanner = new Scanner(filePath.toFile())) {
-            while (scanner.hasNextLine()) {
-                readableString.append(scanner.nextLine()).append(System.lineSeparator());
+        try {
+            return scanner.nextLine();
+        } catch (NoSuchElementException e) {
+            
+        }
+        return null;
+        /*StringBuilder readableString = new StringBuilder();
+        try (Scanner newScanner = new Scanner(filePath.toFile())) {
+            while (newScanner.hasNextLine()) {
+                readableString.append(newScanner.nextLine()).append(System.lineSeparator());
             }
 
             return readableString.toString();
@@ -66,19 +72,23 @@ public class FileHandler implements IOHandler<String> {
             System.err.println(e.getMessage());
         } catch (NoSuchElementException e) {
             
-        }
+        }*/
 
-        return null;
+        //return null;
     }
 
     public String readLastString() {
-        //System.out.println("I'm hereeeee" + scanner.nextLine());
-        String lastString = null;
-        //System.out.println("I'm hereeeee" + scanner.nextLine());
-        try (Scanner scanner = new Scanner(filePath.toFile())) {
-            System.out.println("I'm here" + scanner.nextLine());
-            while (scanner.hasNextLine()) {
-                lastString = scanner.nextLine();
+        try {
+            return scanner.nextLine();
+        } catch (NoSuchElementException e) {
+            
+        }
+        return null;
+        /*String lastString = null;
+        try (Scanner newScanner = new Scanner(filePath.toFile())) {
+            System.out.println("hasNext = " + newScanner.hasNextLine());
+            while (newScanner.hasNextLine()) {
+                lastString = newScanner.nextLine();
                 System.out.println("hasNext = " + lastString);
                 
             }
@@ -91,7 +101,7 @@ public class FileHandler implements IOHandler<String> {
 
         }
 
-        return null;
+        return null;*/
     }
 
     @Override
@@ -106,6 +116,6 @@ public class FileHandler implements IOHandler<String> {
     }
 
     public boolean scannerHasNext() {
-        return scanner.hasNext();
+        return scanner.hasNextLine();
     }
 }
