@@ -1,10 +1,10 @@
 package lab5.collection.ticket;
 
 public enum TicketType {
-    VIP(1),
-    USUAL(2),
-    BUDGETARY(3),
-    CHEAP(4);
+    VIP(4),
+    USUAL(3),
+    BUDGETARY(2),
+    CHEAP(1);
 
     private final int value;
 

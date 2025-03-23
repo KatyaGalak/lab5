@@ -1,5 +1,7 @@
 package lab5.commands.SpecificCommands;
 
+import java.io.IOException;
+
 import lab5.collection.CollectionManager;
 import lab5.collection.ticket.Ticket;
 import lab5.commands.Command;
@@ -11,7 +13,7 @@ import lab5.io.usersRequest.TicketRequest;
 public class UpdateById extends Command {
     static final String[] args = new String[]{"id"};
     public UpdateById() {
-        super("Show", "Gets collection items in a string representation", args);
+        super("UpdateByID", "Update the item with the passed ID.", args);
     }
 
     private boolean isNumeric(String str) {
@@ -55,7 +57,14 @@ public class UpdateById extends Command {
                                                                 CollectionManager.getInstance().getTicketCollection()
                                                                 .stream()
                                                                 .filter(ticketCmp -> ticketCmp.getId() == ID).findFirst().get());
+        try {
+            ticket.setId(ID);
+        } catch (IOException e) {
 
+        } catch (IllegalArgumentException e) {
+            return new Response("Incorrect number was passed to set the ID: " + ID);
+        }
+        
         CollectionManager.getInstance().getTicketCollection().add(ticket);
 
         return new Response("The element with ID: " + ID + " has been updated");

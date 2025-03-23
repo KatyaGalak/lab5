@@ -44,6 +44,7 @@ public class Ticket implements Comparable<Ticket> {
     private Person person; // Поле не может быть null
 
     @Setter(AccessLevel.NONE)
+    @JsonIgnore
     private long id; // Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     
     @JsonIgnore
@@ -53,9 +54,8 @@ public class Ticket implements Comparable<Ticket> {
 
     {
         try {
-            System.out.println("PPPP");
             id = IDGenerator.getInstance().generateId();
-            System.out.println("IDDDD = " + id);
+            System.out.println("ITOGID = " + id);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             id = -1;
@@ -67,7 +67,6 @@ public class Ticket implements Comparable<Ticket> {
     }
 
     public void validate() throws IllegalArgumentException {
-        if (id <= 0) throw new IllegalArgumentException("ID must be >= 0");
 
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty");
 
@@ -80,6 +79,8 @@ public class Ticket implements Comparable<Ticket> {
         if (person == null) throw new IllegalArgumentException("Person cannot be null");
 
         person.validate();
+
+        if (id <= 0) throw new IllegalArgumentException("ID must be >= 0");
     }
 
     public Ticket(String name, Coordinates coordinates, 
@@ -102,37 +103,43 @@ public class Ticket implements Comparable<Ticket> {
         validate();
     }
 
-    /*public void setId(long id) {
+    public void setId(long id) throws IllegalArgumentException, IOException {
         try {
             if (id < 0)
                 throw new IllegalArgumentException("ID must be >= 0");
-            if (this.id != id && !IDGenerator.getInstance().isUnique(id)) {
-                throw new IllegalArgumentException("ID must be unique");
-            }
     
             IDGenerator.getInstance().addId(id);
-            IDGenerator.getInstance().removeId(this.id);
-        } catch (IOException e) {
+            IDGenerator.getInstance().deleteLastID();
+        } catch (IllegalArgumentException | IOException e) {
             System.err.println(e.getMessage());
         }
         
 
         this.id = id;
-    }*/
+    }
 
     @Override
     public int compareTo(Ticket ticket) {
         if (ticket == null) return 1;
 
-        int ans = Double.compare(price, ticket.price);
+        int ans = this.creationDate.compareTo(ticket.creationDate);
 
-        if (ans == 0) ans = this.creationDate.compareTo(ticket.creationDate);
+        if (installedPrice && ans == 0)
+            ans = this.person.compareTo(ticket.person);            
+
+        if (ans == 0) ans = this.type.compareTo(ticket.type);
 
         if (ans == 0) ans = this.coordinates.compareTo(ticket.coordinates);
         
-        if (ans == 0) ans = this.person.compareTo(ticket.person);
+        if (ans == 0) ans = Double.compare(price, ticket.price);
 
-        // TO DO
+        if (ans == 0) ans = this.name.compareTo(ticket.name);
+
+        if (installedRefundable && ans == 0)
+            ans = Boolean.compare(refundable, ticket.refundable);
+
+        if (ans == 0)
+            ans = Long.compare(id, ticket.id);
 
         return ans;
     }

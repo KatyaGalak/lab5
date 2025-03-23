@@ -16,6 +16,8 @@ public class Coordinates implements Comparable<Coordinates> {
         this.y = y;
     }
 
+    public Coordinates() {}
+
     public double getX() {
         return x;
     }
@@ -45,8 +47,8 @@ public class Coordinates implements Comparable<Coordinates> {
     @Override
     public String toString() {
         return "Coordinates [" +
-                    "\n x = " + x +
-                    "\n y = " + y + " \n ]";
+                    "\n\t\t x = " + x +
+                    "\n\t\t y = " + y + " \n\t ]";
 
     }
 }

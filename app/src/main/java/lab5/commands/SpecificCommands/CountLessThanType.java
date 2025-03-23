@@ -19,7 +19,7 @@ public class CountLessThanType extends Command {
             return new Response("Empty ticket type is set");
         }
         try {
-            TicketType ticketType = TicketType.valueOf(request.getArgs().get(0));
+            TicketType ticketType = TicketType.valueOf(request.getArgs().get(0).toUpperCase());
 
             int cnt = 0;
 

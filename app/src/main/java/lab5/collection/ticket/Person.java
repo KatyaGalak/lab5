@@ -18,11 +18,13 @@ public class Person implements Comparable<Person> {
     @JsonProperty("hairColor")
     private Color hairColor; // Поле не может быть null
 
-    public Person(LocalDateTime birthday, String passportID, Color haiColor) {
+    public Person(LocalDateTime birthday, String passportID, Color hairColor) {
         this.birthday = birthday;
         this.passportID = passportID;
-        this.hairColor = haiColor;
+        this.hairColor = hairColor;
     }
+
+    public Person() {}
 
     public void validate() throws IllegalArgumentException {
         if (birthday == null) throw new IllegalArgumentException("Birthday cannot be null");

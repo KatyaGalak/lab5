@@ -49,12 +49,21 @@ public class IDGenerator implements AutoCloseable {
         System.out.println("CUrid 2= " + curId);
         fileHandler.write(newId + System.lineSeparator());
 
-        idTickets.add(newId);
+        addId(newId);
         return newId;
     }
 
     public boolean isUnique(long id) {
         return !idTickets.contains(id);
+    }
+
+    public void deleteLastID() {
+        long delID = curId.decrementAndGet();
+        idTickets.remove(delID);
+    }
+
+    public void addId(long newId) {
+        idTickets.add(newId);
     }
 
     @Override

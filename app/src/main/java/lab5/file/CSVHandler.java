@@ -25,6 +25,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.Getter;
 import lab5.collection.ticket.Coordinates;
+import lab5.collection.ticket.IDGenerator;
 import lab5.collection.ticket.Person;
 import lab5.collection.ticket.Ticket;
 import lab5.collection.ticket.TicketType;
@@ -68,26 +69,49 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
         }
 
         CsvMapper csvMapper = new CsvMapper();
+        csvMapper.registerModule(new JavaTimeModule());
+        csvMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
         TreeSet<Ticket> tickets = new TreeSet<>();
 
         try (Scanner scanner = fileHandler.getScanner()) {
-            if (scanner.hasNextLine())
-                scanner.nextLine();
+            //if (scanner.hasNextLine())
+               // scanner.nextLine();
             
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
+                System.out.println("sc line = " + line);
+
+                if (line == null)
+                    continue;
+
+                String[] parts = line.split(",");
+                if (parts.length > csvMapper.schemaFor(Ticket.class).size()) {
+                    
+                    StringBuilder newLine = new StringBuilder();
+
+                    for (int i = 0; i < csvMapper.schemaFor(Ticket.class).size(); ++i) {
+                        newLine.append(parts[i]);
+                        if (i < csvMapper.schemaFor(Ticket.class).size() - 1)
+                            newLine.append(",");
+                    }
+
+                    line = newLine.toString();
+                }
 
                 try {
-                    Ticket ticket = csvMapper.readerFor(Ticket.class)
-                                            .with(csvMapper.schemaFor(Ticket.class))
-                                            .readValue(line);
+                    
 
                     try {
+                        Ticket ticket = csvMapper.readerFor(Ticket.class)
+                                            .with(csvMapper.schemaFor(Ticket.class))
+                                            .readValue(line);
                         ticket.validate();
+                        tickets.add(ticket);
                     } catch (IllegalArgumentException e) {
+                        IDGenerator.getInstance().deleteLastID();
                         System.err.println("Ticket has invalid data" + e.getMessage());
                     }
-                    tickets.add(ticket);
                     
                 } catch (IllegalArgumentException e) {
                     System.err.println("[Error] Invalid data: " + e.getMessage());
@@ -169,11 +193,10 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
 
         try {
             SequenceWriter seq = cvsMapper.writerWithSchemaFor(TicketDTO.class).writeValues(fileHandler.getOutputStreamWriter());
-            for (int i = 0; i < 2; ++i)
-                for (Ticket ticket : tickets) {
-                    TicketDTO ticketDTO = new TicketDTO(ticket);
-                    seq.write(ticketDTO);
-                }
+            for (Ticket ticket : tickets) {
+                TicketDTO ticketDTO = new TicketDTO(ticket);
+                seq.write(ticketDTO);
+            }
 
             seq.close();
 
