@@ -169,10 +169,11 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
 
         try {
             SequenceWriter seq = cvsMapper.writerWithSchemaFor(TicketDTO.class).writeValues(fileHandler.getOutputStreamWriter());
-            for (Ticket ticket : tickets) {
-                TicketDTO ticketDTO = new TicketDTO(ticket);
-                seq.write(ticketDTO);
-            }
+            for (int i = 0; i < 2; ++i)
+                for (Ticket ticket : tickets) {
+                    TicketDTO ticketDTO = new TicketDTO(ticket);
+                    seq.write(ticketDTO);
+                }
 
             seq.close();
 

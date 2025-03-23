@@ -79,6 +79,7 @@ public class FileHandler implements IOHandler<String> {
 
     public String readLastString() {
         try {
+            System.out.println("?" + scanner.hasNext());
             return scanner.nextLine();
         } catch (NoSuchElementException e) {
             
