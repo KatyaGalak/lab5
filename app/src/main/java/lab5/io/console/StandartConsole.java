@@ -35,7 +35,6 @@ public class StandartConsole implements Console {
             writer.append(data).append(System.lineSeparator());
             writer.flush();
         } catch (IOException e) {
-            System.out.println("AYFTRDETRFTYGUYHGFRDF");
         }
     }
 

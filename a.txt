@@ -1,3 +1,4 @@
 show
 clear
 executeScript script_2.txt
+clear
