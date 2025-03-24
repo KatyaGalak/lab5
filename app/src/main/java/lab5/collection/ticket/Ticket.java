@@ -55,7 +55,6 @@ public class Ticket implements Comparable<Ticket> {
     {
         try {
             id = IDGenerator.getInstance().generateId();
-            System.out.println("ITOGID = " + id);
         } catch (IOException e) {
             System.err.println(e.getMessage());
             id = -1;

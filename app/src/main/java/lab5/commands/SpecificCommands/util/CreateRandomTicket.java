@@ -16,6 +16,9 @@ import lab5.collection.ticket.IDGenerator;
 import lab5.collection.ticket.Coordinates;
 import lab5.io.usersRequest.PersonRequest;
 
+/**
+ * Utility class for generating random Ticket objects.
+ */
 public class CreateRandomTicket {
     private static final int MIN_LENGTH_NAME = 5;
     private static final int MAX_LENGTH_NAME = 10;
@@ -39,6 +42,11 @@ public class CreateRandomTicket {
     private static final LocalDateTime START_TIME = LocalDateTime.of(2005, 1, 1, 10, 0, 0);
     private static final LocalDateTime END_TIME = LocalDateTime.of(2023, 12, 31, 10, 0, 0);
 
+    /**
+     * Generates a random passport ID.
+     *
+     * @return A unique random passport ID.
+     */
     private static String getRandomPassportID() {
         while (true) {
             SecureRandom random = new SecureRandom();
@@ -57,6 +65,11 @@ public class CreateRandomTicket {
         }
     }
 
+    /**
+     * Generates a random name.
+     *
+     * @return A randomly generated name.
+     */
     private static String getRandomName() {
         SecureRandom random = new SecureRandom();
         int sizeName = random.nextInt(MAX_LENGTH_NAME - MIN_LENGTH_NAME + 1) + MIN_LENGTH_NAME;
@@ -77,7 +90,14 @@ public class CreateRandomTicket {
         return stringName;
     }
 
-    private static <T extends Enum<T> > T getRandomEnum(Class<T> enumClass) {
+    /**
+     * Returns a random enum value from the specified enum class.
+     *
+     * @param enumClass The class of the enum to choose from.
+     * @param <T> The type of the enum.
+     * @return A random enum value.
+     */
+    private static <T extends Enum<T>> T getRandomEnum(Class<T> enumClass) {
         Random random = new Random();
 
         int randomIndex = random.nextInt(enumClass.getEnumConstants().length);
@@ -85,6 +105,11 @@ public class CreateRandomTicket {
         return enumClass.getEnumConstants()[randomIndex];
     }
 
+    /**
+     * Generates a random LocalDateTime within the specified range.
+     *
+     * @return A random LocalDateTime.
+     */
     private static LocalDateTime getRandomLocalDataTime() {
         long startEpoch = START_TIME.toEpochSecond(ZoneOffset.UTC);
         long endEpoch = END_TIME.toEpochSecond(ZoneOffset.UTC);
@@ -96,6 +121,13 @@ public class CreateRandomTicket {
         return LocalDateTime.ofEpochSecond(randomEpoch, 0, ZoneOffset.UTC);
     }
 
+    /**
+     * Generates a list of random Ticket objects.
+     *
+     * @param cnt The number of random tickets to generate.
+     * @return A list of randomly generated Ticket objects.
+     * @throws IllegalArgumentException if the generated data is invalid.
+     */
     public static List<Ticket> generateRandomTicket(int cnt) throws IllegalArgumentException {
         List<Ticket> tickets = new LinkedList<>();
 
@@ -119,8 +151,6 @@ public class CreateRandomTicket {
 
             String passportID = getRandomPassportID();
 
-            System.out.println("PassportID = " + passportID);
-
             Color hairColor = getRandomEnum(Color.class);
 
             Person person = new Person(birthday, passportID, hairColor);
@@ -133,12 +163,11 @@ public class CreateRandomTicket {
                 try {
                     IDGenerator.getInstance().deleteLastID();
                 } catch (IOException e1) {
-
+                    // Handle exception
                 }
                 
                 throw new IllegalArgumentException();
             }
-        
         }
 
         return tickets;

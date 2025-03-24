@@ -24,10 +24,7 @@ public class IDGenerator implements AutoCloseable {
 
     private void initialize() {
         try {
-            System.out.println("Set curid initial = " );
             String preId = fileHandler.readLastString();
-            //System.out.println("Pre_id = " + ((preId == null) ? "null" : preId));
-            System.out.println("Set curid initial = " + preId);
             if (preId != null) 
                 curId.set(Integer.parseInt(preId));
         } catch (NumberFormatException e) {
@@ -37,16 +34,12 @@ public class IDGenerator implements AutoCloseable {
     }
 
     private IDGenerator() throws IOException {
-        System.out.println("yA tut");
         fileHandler = new FileHandler(FileConfiguration.ID_SEQ_PATH, false);
-        System.out.println("yA tut");
         initialize();
     }
 
     public long generateId() throws IOException {
-        System.out.println("CUrid = " + curId);
         long newId = curId.incrementAndGet();
-        System.out.println("CUrid 2= " + curId);
         fileHandler.write(newId + System.lineSeparator());
 
         addId(newId);

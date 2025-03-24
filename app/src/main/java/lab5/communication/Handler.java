@@ -16,11 +16,9 @@ import lab5.io.connection.*;
 public class Handler implements Runnable {
     protected final Console console;
     private final Router router;
-    //private final ScriptHandler script;
 
     public Handler(Console console) {
         this.console = console;
-        //this.script = script;
         this.router = Router.getInstance();
     }
 
@@ -40,13 +38,6 @@ public class Handler implements Runnable {
         String[] parts = data.split("\s+", 2);
 
         String nameCommand = parts[0];
-
-        //List<Ticket> tikets = new LinkedList<>();
-
-        //TicketRequest ticketRequest = new TicketRequest(console);
-
-        //Ticket myTicket = ticketRequest.create();
-        //tikets.add(myTicket);
 
         final List<String> args = parts.length > 1 ? Arrays.asList(parts[1].split("\s+")) : Collections.emptyList();
 

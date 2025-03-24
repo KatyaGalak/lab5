@@ -4,6 +4,10 @@ import java.util.List;
 
 import lab5.commands.Command;
 
+/**
+ * A utility class that holds a list of all added command instances.
+ * This class provides a method to retrieve the list of commands that can be executed.
+ */
 public final class AddedCommands {
     private static List<Command> addedCommands = List.of(
         new Add(),
@@ -28,9 +32,17 @@ public final class AddedCommands {
         new AddRandom()
     );
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private AddedCommands() {}
+
+    /**
+     * Retrieves the list of added commands.
+     *
+     * @return A list of Command instances that have been added.
+     */
     public static List<Command> getAddedCommands() {
         return addedCommands;
     }
-
-    private AddedCommands(){}
 }

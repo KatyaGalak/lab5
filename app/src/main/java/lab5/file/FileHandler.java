@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -60,49 +58,16 @@ public class FileHandler implements IOHandler<String> {
             
         }
         return null;
-        /*StringBuilder readableString = new StringBuilder();
-        try (Scanner newScanner = new Scanner(filePath.toFile())) {
-            while (newScanner.hasNextLine()) {
-                readableString.append(newScanner.nextLine()).append(System.lineSeparator());
-            }
 
-            return readableString.toString();
-        } catch (FileNotFoundException e) {
-            System.err.println("[Error] File: " + filePath + " cannot be read");
-            System.err.println(e.getMessage());
-        } catch (NoSuchElementException e) {
-            
-        }*/
-
-        //return null;
     }
 
     public String readLastString() {
         try {
-            System.out.println("?" + scanner.hasNext());
             return scanner.nextLine();
         } catch (NoSuchElementException e) {
             
         }
         return null;
-        /*String lastString = null;
-        try (Scanner newScanner = new Scanner(filePath.toFile())) {
-            System.out.println("hasNext = " + newScanner.hasNextLine());
-            while (newScanner.hasNextLine()) {
-                lastString = newScanner.nextLine();
-                System.out.println("hasNext = " + lastString);
-                
-            }
-
-            return lastString;
-        } catch (FileNotFoundException e) {
-            System.err.println("[Error] File: " + filePath + " cannot be read");
-            System.err.println(e.getMessage());
-        } catch (NoSuchElementException e) {
-
-        }
-
-        return null;*/
     }
 
     @Override

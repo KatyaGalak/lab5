@@ -71,23 +71,11 @@ public class TicketRequest extends Request<Ticket> {
 
         if (!predicatePerson.test(person))
             return null;
-            
+
         Ticket ticket = new Ticket(name, coordinates, price, refubdable, ticketType, person);
 
         System.out.println("Tyt id" + ticket.getId());
-        /*Long id = askNumericValue("ID", "The value must be unique and > 0", x -> {
-                                                                                                    if (x == null) return true;
-                                                                                                    if (x < 1) return false;
-                                                                                                    try {
-                                                                                                        return IDGenerator.getInstance().isUnique(x);
-                                                                                                    } catch (IOException e) {
-                                                                                                        return false;
-                                                                                                    }
-                                                                                                }, Long.class);*/
 
-        /*if (id != null) {
-            ticket.setId(id);
-        }*/
         
         return ticket;
     }
