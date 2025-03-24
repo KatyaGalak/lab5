@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import lab5.io.console.Console;
 import lab5.collection.CollectionManager;
 import lab5.collection.ticket.Ticket;
-import lab5.communication.exceptions.AlreadyAddedScript;
 import lab5.io.connection.*;
-
 
 public class Handler implements Runnable {
     protected final Console console;
@@ -50,15 +49,33 @@ public class Handler implements Runnable {
         
         Response response = router.route(parse(line));
 
-        if (response.getMessage() != null && response.getMessage().contains("ScriptExecute")) {
-            try (ScriptHandler scriptHandler = new ScriptHandler(console, Path.of(response.getMessage().substring("ScriptExecute".length() + 1)))) {
-                scriptHandler.run();
-            } catch (AlreadyAddedScript e) {
-                console.writeln("File recursion detected: " + e.getMessage());
+        if (response.getMessage() != null && response.getMessage().contains("ScriptExecute")) { 
+            String scriptPathString = response.getMessage().substring("ScriptExecute".length() + 1).trim();
+            Path scriptPath = Path.of(scriptPathString);
+
+            if (!Files.exists(scriptPath)) {
+                console.writeln("IO Error: " + "File: " + scriptPath.getFileName() + " does not exist");
                 return;
+            }
+            if (!Files.isRegularFile(scriptPath)) {
+                console.writeln("File: " + scriptPath.getFileName() + " not a regular file");
+                return;
+            }
+            if (!Files.isReadable(scriptPath)) {
+                console.writeln("File: " + scriptPath.getFileName() + " cannot be read");
+                return;
+            }
+
+            if (ScriptHandler.getOpeningScripts().contains(scriptPath.getFileName().toString())) {
+                console.writeln(scriptPath.getFileName().toString());
+                return;
+            }
+
+
+            try (ScriptHandler scriptHandler = new ScriptHandler(console, scriptPath)) {
+                scriptHandler.run();
             } catch (IOException e) {
                 console.writeln("IO Error: " + e.getMessage());
-                return;
             }
         }
         printConsole(response);

@@ -47,7 +47,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'ru.itmo.prog.lab5.App'
+    mainClass = 'lab5.App'
 }
 
 tasks.named('test') {

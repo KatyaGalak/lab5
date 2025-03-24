@@ -9,26 +9,16 @@ import java.util.Arrays;
 
 import lab5.communication.Handler;
 
-//import lab5.commands.*;
-
-//import lab5.file.*;
-
 import lab5.io.console.*;
 
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
-
     public static void main(String[] args) {
         try (Console console = new StandartConsole()) {
             new Handler(console).run();
         } catch (Exception e) {
             System.err.println("[ERROR]" + Arrays.toString(e.getStackTrace()));
         }
-        System.out.println(new App().getGreeting());
 
        // FileManager fileManager = new CSVFileManager();
         //fileManager.readFile();

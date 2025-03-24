@@ -34,7 +34,9 @@ public class StandartConsole implements Console {
         try {
             writer.append(data).append(System.lineSeparator());
             writer.flush();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+            System.out.println("AYFTRDETRFTYGUYHGFRDF");
+        }
     }
 
     @Override

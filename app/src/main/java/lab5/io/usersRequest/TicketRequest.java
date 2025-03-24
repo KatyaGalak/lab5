@@ -73,10 +73,7 @@ public class TicketRequest extends Request<Ticket> {
             return null;
 
         Ticket ticket = new Ticket(name, coordinates, price, refubdable, ticketType, person);
-
-        System.out.println("Tyt id" + ticket.getId());
-
-        
+ 
         return ticket;
     }
 }

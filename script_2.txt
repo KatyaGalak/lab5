@@ -1,0 +1,4 @@
+clear
+show
+executeScript script_1.txt
+info

@@ -30,6 +30,5 @@ public class ExecuteScript extends Command {
             return new Response("The path to the script was not passed.");
         
         return new Response("ScriptExecute " + request.getArgs().get(0));
-        /* Additional logic for executing the script can be implemented here */
     }
 }
