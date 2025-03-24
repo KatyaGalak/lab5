@@ -21,6 +21,12 @@ public class PersonRequest extends Request<Person> {
         return false;
     }
 
+    public static void deletePassportID(String passportID) {
+        if (passportIDPerson.contains(passportID)) {
+            passportIDPerson.remove(passportID);
+        }
+    }
+
     public PersonRequest(Console console) {
         super(console);
     }

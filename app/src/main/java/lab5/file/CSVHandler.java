@@ -80,7 +80,6 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
             
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                System.out.println("sc line = " + line);
 
                 if (line == null)
                     continue;

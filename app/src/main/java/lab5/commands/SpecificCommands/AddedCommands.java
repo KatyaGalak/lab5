@@ -24,7 +24,8 @@ public final class AddedCommands {
         new Save(),
         new Show(),
         new UpdateById(),
-        new ExecuteScript()
+        new ExecuteScript(),
+        new AddRandom()
     );
 
     public static List<Command> getAddedCommands() {

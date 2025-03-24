@@ -84,7 +84,7 @@ public class Ticket implements Comparable<Ticket> {
     }
 
     public Ticket(String name, Coordinates coordinates, 
-                    Double price, Boolean refundable, TicketType type, Person person) {
+                    Double price, Boolean refundable, TicketType type, Person person) throws IllegalArgumentException {
         this();
         this.name = name;
         this.coordinates = coordinates;

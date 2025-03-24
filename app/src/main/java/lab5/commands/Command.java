@@ -35,4 +35,16 @@ public abstract class Command {
     }
 
     public abstract Response execute(Request request);
+
+    protected boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) 
+            return false;
+
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

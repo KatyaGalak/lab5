@@ -10,18 +10,6 @@ public class RemoveById extends Command {
         super("RemoveByID", "Delete an item by its ID", args);
     }
 
-    private boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) 
-            return false;
-
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
     @Override
     public Response execute(Request request) {
         if (request.getArgs() == null || request.getArgs().isEmpty()) {
