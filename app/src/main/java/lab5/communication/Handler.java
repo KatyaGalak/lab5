@@ -72,7 +72,9 @@ public class Handler implements Runnable {
             }
 
             try (ScriptHandler scriptHandler = new ScriptHandler(console, scriptPath)) {
+                //System.out.println("PRE RUN = " + scriptPathString);
                 scriptHandler.run();
+                //System.out.println("AFTER RUN = " + scriptPathString);
             } catch (IOException e) {
                 console.writeln("IO Error: " + e.getMessage());
             }
@@ -89,7 +91,8 @@ public class Handler implements Runnable {
         CollectionManager.getInstance();
 
         String line;
-        while((line = console.read()) != null) {
+        while((line = console.read("Enter the Command: ")) != null) {
+           // System.out.println("\nLINEE = " + line + "\n");
             handle(line);
         }
     }

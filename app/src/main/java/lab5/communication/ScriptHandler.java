@@ -19,11 +19,17 @@ public class ScriptHandler extends Handler implements AutoCloseable {
 
         this.scriptPath = scriptPath;
 
-        Scanner curScanner = new Scanner(Files.newBufferedReader(scriptPath));
+        if (console.isFileScanner()) {
+            scannerStack.add(console.getReader());
+            openingScripts.add("PRE READER");
+        }
 
+        Scanner curScanner = new Scanner(Files.newBufferedReader(scriptPath));
         console.setScriptScanner(curScanner);
-        scannerStack.add(curScanner);
-        openingScripts.add(scriptPath.getFileName().toString());
+
+        //System.out.println("\nADD = " + scriptPath.getFileName().toString() + "\n");
+       // scannerStack.add(curScanner);
+        //openingScripts.add(scriptPath.getFileName().toString());
 
     }
 
@@ -34,10 +40,14 @@ public class ScriptHandler extends Handler implements AutoCloseable {
     @Override
     public void close() throws IOException {
         if (!scannerStack.isEmpty()) {
+           // System.out.println("\nCLOSE = " + openingScripts.peek() + " " + openingScripts.size());
             console.setScriptScanner(scannerStack.pop());
             openingScripts.pop();
-        } else
+
+        } else {
             console.setSimpleScanner();
+            //System.out.println("YAAAAAAAAAAAAA");
+        }
     }
 
     @Override
@@ -47,6 +57,7 @@ public class ScriptHandler extends Handler implements AutoCloseable {
 
             String line;
             while((line = console.read()) != null) {
+               // System.out.println("\nLINE = " + line + "\n");
                 handle(line);
             }
         } catch (Exception e) {

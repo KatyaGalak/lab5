@@ -1,4 +1,5 @@
 show
 clear
 executeScript script_2.txt
-clear
+show
+executeScript script_2.txt

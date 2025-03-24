@@ -10,4 +10,6 @@ public interface Console extends IOHandler<String> {
     public boolean isFileScanner();
     public void setScriptScanner(Scanner scanner);
     public void setSimpleScanner();
+
+    public Scanner getReader();
 }

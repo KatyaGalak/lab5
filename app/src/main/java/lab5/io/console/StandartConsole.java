@@ -16,6 +16,11 @@ public class StandartConsole implements Console {
     //private static Scanner fileScanner = null;
 
     @Override
+    public Scanner getReader() {
+        return reader;
+    }
+
+    @Override
     public void close() throws IOException {
         reader.close();
         writer.close();
