@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import lab5.io.console.Console;
 
 public class ScriptHandler extends Handler implements AutoCloseable {
-    private static final Stack<String> openingScripts = new Stack<>();
+    private static HashSet<String> openingScripts = new HashSet<>();
     private static Stack<Scanner> scannerStack = new Stack<>();
     Path scriptPath;
 
@@ -21,7 +21,6 @@ public class ScriptHandler extends Handler implements AutoCloseable {
 
         if (console.isFileScanner()) {
             scannerStack.add(console.getReader());
-            openingScripts.add("PRE READER");
         }
 
         Scanner curScanner = new Scanner(Files.newBufferedReader(scriptPath));
@@ -29,11 +28,11 @@ public class ScriptHandler extends Handler implements AutoCloseable {
 
         //System.out.println("\nADD = " + scriptPath.getFileName().toString() + "\n");
        // scannerStack.add(curScanner);
-        //openingScripts.add(scriptPath.getFileName().toString());
+        openingScripts.add(scriptPath.getFileName().toString());
 
     }
 
-    public static Stack<String> getOpeningScripts() {
+    public static HashSet<String> getOpeningScripts() {
         return openingScripts;
     }
 
@@ -42,11 +41,14 @@ public class ScriptHandler extends Handler implements AutoCloseable {
         if (!scannerStack.isEmpty()) {
            // System.out.println("\nCLOSE = " + openingScripts.peek() + " " + openingScripts.size());
             console.setScriptScanner(scannerStack.pop());
-            openingScripts.pop();
 
         } else {
             console.setSimpleScanner();
             //System.out.println("YAAAAAAAAAAAAA");
+        }
+
+        if (!openingScripts.isEmpty()) {
+            openingScripts.remove(scriptPath.getFileName().toString());
         }
     }
 

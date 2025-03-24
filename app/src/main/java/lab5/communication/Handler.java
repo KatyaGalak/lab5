@@ -67,7 +67,7 @@ public class Handler implements Runnable {
             }
 
             if (ScriptHandler.getOpeningScripts().contains(scriptPath.getFileName().toString())) {
-                console.writeln(scriptPath.getFileName().toString());
+                console.writeln("Recursion detected, repeated call: " + scriptPath.getFileName().toString());
                 return;
             }
 
