@@ -10,11 +10,27 @@ import lab5.io.connection.Response;
 import lab5.io.usersRequest.TicketRequest;
 
 
+/**
+ * Command to update an existing ticket in the collection by its ID.
+ */
 public class UpdateById extends Command {
+    /**
+     * Constructor for the UpdateById command.
+     * Initializes the command with its name and description.
+     */
+
     static final String[] args = new String[]{"id"};
     public UpdateById() {
         super("UpdateByID", "Update the item with the passed ID.", args);
     }
+
+    /**
+     * Executes the command to update the ticket with the specified ID.
+     *
+     * @param request The request containing the necessary information for updating.
+     * @return A response indicating the result of the update operation.
+     */
+
 
     @Override
     public Response execute(Request request) {

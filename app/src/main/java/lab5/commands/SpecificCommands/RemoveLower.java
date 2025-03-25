@@ -7,13 +7,26 @@ import lab5.io.connection.Request;
 import lab5.io.connection.Response;
 import lab5.io.usersRequest.TicketRequest;
 
+/**
+ * Command to remove tickets from the collection that are lower than the specified ticket.
+ */
 public class RemoveLower extends Command {
-
     static final String[] args = new String[]{"name", "x", "y", "price", "refundable", "type", "person"};
+
+    /**
+     * Constructor for the RemoveLower command.
+     * Initializes the command with its name and description.
+     */
     public RemoveLower() {
-        super("RemoveLower", "Delete items from the collection that are smaller than the specified item", args);
+        super("RemoveLower", "Delete items from the collection that are lower than the specified item", args);
     }
 
+    /**
+     * Executes the command to remove tickets from the collection that are lower than the specified ticket.
+     *
+     * @param request The request containing the ticket information.
+     * @return A response indicating the result of the removal operation.
+     */
     @Override
     public Response execute(Request request) {
         TicketRequest ticketRequest = new TicketRequest(request.getConsole());
@@ -28,7 +41,6 @@ public class RemoveLower extends Command {
                             .getTicketCollection()
                             .removeIf(ticketCmp -> ticketCmp.compareTo(ticket) < 0);
 
-        return new Response("Collection items less than the specified value have been deleted (If there were any).");
+        return new Response("Collection items lower than the specified value have been deleted (if there were any).");
     }
 }
-

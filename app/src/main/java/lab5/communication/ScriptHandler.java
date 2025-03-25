@@ -39,12 +39,10 @@ public class ScriptHandler extends Handler implements AutoCloseable {
     @Override
     public void close() throws IOException {
         if (!scannerStack.isEmpty()) {
-           // System.out.println("\nCLOSE = " + openingScripts.peek() + " " + openingScripts.size());
             console.setScriptScanner(scannerStack.pop());
 
         } else {
             console.setSimpleScanner();
-            //System.out.println("YAAAAAAAAAAAAA");
         }
 
         if (!openingScripts.isEmpty()) {
