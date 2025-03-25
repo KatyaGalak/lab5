@@ -174,8 +174,6 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
             this.type = ticket.getType();
             this.person = ticket.getPerson();
             this.id = ticket.getId();
-
-            System.out.println("Ticket = " + this.name + " " + this.type.toString() + " " + this.id);
         }
     }
 

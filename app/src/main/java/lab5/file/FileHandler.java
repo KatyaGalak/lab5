@@ -39,7 +39,7 @@ public class FileHandler implements IOHandler<String> {
 
         if (Files.notExists(filePath)) {
             System.err.println(ANSI_RED + "[Error] DataFile " + filePath + " does not exist" + ANSI_RESET);
-            System.exit(1); // надо бы кидать исключение
+            System.exit(1);
         }
 
         scanner = new Scanner(Files.newBufferedReader(filePath));
@@ -63,7 +63,11 @@ public class FileHandler implements IOHandler<String> {
 
     public String readLastString() {
         try {
-            return scanner.nextLine();
+            String lastString = null;
+            while (scannerHasNext()) {
+                lastString = read();
+            }
+            return lastString;
         } catch (NoSuchElementException e) {
             
         }

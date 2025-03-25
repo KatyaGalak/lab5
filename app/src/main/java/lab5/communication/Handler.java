@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import lab5.io.console.Console;
 import lab5.collection.CollectionManager;
 import lab5.collection.ticket.Ticket;
+import lab5.commands.Command;
 import lab5.io.connection.*;
 
 public class Handler implements Runnable {
@@ -80,11 +81,14 @@ public class Handler implements Runnable {
 
         printConsole(response);
 
+        if (response.getMessage() != null && response.getMessage().contains("Command Exit")) {
+            System.exit(0);
+        }
     }
 
     @Override
     public void run() {
-        console.writeln("Welcome! Let's start working with the collection.");
+        console.writeln("Welcome! Let's start working with the collection. :)");
 
         CollectionManager.getInstance();
 

@@ -150,7 +150,6 @@ public class Ticket implements Comparable<Ticket> {
 
     @Override
     public int compareTo(Ticket ticket) {
-        System.out.println("COMPARE = ");
         if (ticket == null) return 1;
 
         int ans = this.person.compareTo(ticket.person);

@@ -50,7 +50,24 @@ application {
     mainClass = 'lab5.App'
 }
 
+// Задача для создания толстого JAR-файла
+tasks.register('fatJar', Jar) {
+    archiveBaseName = 'AppFat' // Имя толстого JAR-файла
+    manifest {
+        attributes 'Main-Class': 'lab5.App' // Указываем главный класс в манифесте
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } // Добавляем все зависимости
+    }
+    with jar // Включаем стандартные настройки JAR
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Указываем, как обрабатывать дубликаты
+}
+
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.build {
+    dependsOn fatJar // Указываем, что задача сборки зависит от fatJar
 }

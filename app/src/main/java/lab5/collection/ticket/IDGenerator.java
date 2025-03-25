@@ -57,7 +57,7 @@ public class IDGenerator implements AutoCloseable {
      */
     private IDGenerator() throws IOException {
 
-        fileHandler = new FileHandler(FileConfiguration.ID_SEQ_PATH, false);
+        fileHandler = new FileHandler(FileConfiguration.ID_SEQ_PATH, true);
         initialize();
     }
 

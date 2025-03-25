@@ -25,7 +25,6 @@ public class Exit extends Command {
      */
     @Override
     public Response execute(Request request) {
-        System.exit(0);
-        return new Response("Exiting the program");
+        return new Response("Command Exit (Exiting the program)");
     }
 }
