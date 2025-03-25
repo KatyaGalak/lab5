@@ -11,15 +11,28 @@ import lab5.file.CSVHandler;
 import lombok.Getter;
 import lab5.configuration.FileConfiguration;
 
+/**
+ * The CollectionManager class manages a collection of Ticket objects.
+ * It provides methods to load and save the collection from/to a CSV file,
+ * as well as access the collection as a list.
+ */
 @Getter
 public class CollectionManager {
+    
+    /**
+     * Retrieves the singleton instance of the CollectionManager.
+     * 
+     * @return the singleton instance of CollectionManager
+     */
+
     private static CollectionManager ticketCollectionSingleton;
-    private TreeSet<Ticket> ticketCollection = new TreeSet<>(new TicketComparator());
+    private TreeSet<Ticket> ticketCollection = new TreeSet<>();
 
     @Getter
     private LocalDateTime creationDate;
 
-    public static CollectionManager getInstance() {
+    public static CollectionManager getInstance() { 
+
         return ticketCollectionSingleton == null ? ticketCollectionSingleton = new CollectionManager() : ticketCollectionSingleton;
     }
 
@@ -28,11 +41,22 @@ public class CollectionManager {
         creationDate = LocalDateTime.now();
     }
 
+    /**
+     * Sets the ticket collection to the specified TreeSet of Tickets.
+     * 
+     * @param collection the TreeSet of Tickets to set
+     */
     public void setCollection(TreeSet<Ticket> collection) {
+
         this.ticketCollection = collection;
     }
 
+    /**
+     * Loads the collection of Tickets from a CSV file.
+     * Clears the existing collection before loading.
+     */
     public void loadCollection() {
+
         ticketCollection.clear();
         
         try (CSVHandler cvsHandler = new CSVHandler(FileConfiguration.FILE_PATH, true)) {
@@ -42,7 +66,11 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Saves the current collection of Tickets to a CSV file.
+     */
     public void saveCollection() {
+
         try (CSVHandler cvsHandler = new CSVHandler(FileConfiguration.FILE_PATH, false)) {
             cvsHandler.write(ticketCollection);
         } catch (IOException e) {
@@ -50,7 +78,13 @@ public class CollectionManager {
         }
     }
 
+    /**
+     * Returns a list representation of the current ticket collection.
+     * 
+     * @return a List of Tickets
+     */
     public List<Ticket> getList() {
+
         return new ArrayList<>(ticketCollection);
     }
 }

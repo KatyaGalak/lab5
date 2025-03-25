@@ -2,6 +2,7 @@ package lab5.collection.ticket;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,6 +13,11 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.AccessLevel;
 
+/**
+ * The Ticket class represents a ticket with various attributes such as name, coordinates, price, 
+ * refundable status, type, and associated person. It implements the Comparable interface to allow 
+ * sorting based on ticket attributes.
+ */
 @Data
 @JsonPropertyOrder({"name", "coordinates", "price", "refundable", "type", "person"})
 public class Ticket implements Comparable<Ticket> {
@@ -61,7 +67,12 @@ public class Ticket implements Comparable<Ticket> {
         }
     }
 
+    /**
+     * Default constructor for the Ticket class.
+     * Initializes a new Ticket object with the current creation date.
+     */
     public Ticket() {
+
         this.creationDate = LocalDateTime.now();
     }
 
@@ -82,7 +93,19 @@ public class Ticket implements Comparable<Ticket> {
         if (id <= 0) throw new IllegalArgumentException("ID must be >= 0");
     }
 
+    /**
+     * Constructs a Ticket object with the specified parameters.
+     * 
+     * @param name the name of the ticket
+     * @param coordinates the coordinates associated with the ticket
+     * @param price the price of the ticket
+     * @param refundable indicates if the ticket is refundable
+     * @param type the type of the ticket
+     * @param person the person associated with the ticket
+     * @throws IllegalArgumentException if any parameter is invalid
+     */
     public Ticket(String name, Coordinates coordinates, 
+
                     Double price, Boolean refundable, TicketType type, Person person) throws IllegalArgumentException {
         this();
         this.name = name;
@@ -102,7 +125,15 @@ public class Ticket implements Comparable<Ticket> {
         validate();
     }
 
+    /**
+     * Sets the ID for the ticket and updates the ID generator.
+     * 
+     * @param id the unique ID to set for the ticket
+     * @throws IllegalArgumentException if the ID is invalid
+     * @throws IOException if an I/O error occurs
+     */
     public void setId(long id) throws IllegalArgumentException, IOException {
+
         try {
             if (id < 0)
                 throw new IllegalArgumentException("ID must be >= 0");
@@ -119,12 +150,16 @@ public class Ticket implements Comparable<Ticket> {
 
     @Override
     public int compareTo(Ticket ticket) {
+        System.out.println("COMPARE = ");
         if (ticket == null) return 1;
 
-        int ans = this.creationDate.compareTo(ticket.creationDate);
+        int ans = this.person.compareTo(ticket.person);
+        
+        if (ans == 0) 
+            ans = this.creationDate.compareTo(ticket.creationDate);
 
         if (installedPrice && ans == 0)
-            ans = this.person.compareTo(ticket.person);            
+            ans = Double.compare(price, ticket.price);         
 
         if (ans == 0) ans = this.type.compareTo(ticket.type);
 
@@ -144,7 +179,35 @@ public class Ticket implements Comparable<Ticket> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Ticket))
+            return false;
+
+        Ticket t = (Ticket) o;
+
+        return Objects.equals(name, t.name) && Objects.equals(id, t.id) &&
+            Objects.equals(coordinates, t.coordinates) & Objects.equals(creationDate, t.creationDate) &&
+            Objects.equals(price, t.price) && Objects.equals(refundable, t.refundable) && 
+            Objects.equals(type, t.type) && Objects.equals(person, t.person);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, coordinates, creationDate, person, type, price, refundable);
+    }
+
+    /**
+     * Returns a string representation of the Ticket object.
+     * 
+     * @return a string representation of the Ticket object
+     */
+    @Override
     public String toString() {
+
         return "Ticket {" +
                 "\n\t id = " + id +
                 "\n\t name = " + name +

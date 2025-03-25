@@ -106,7 +106,7 @@ public abstract class Request<T> {
             Boolean booleanInput = null;
 
             if (input == null && predicate.test(null)
-                || input.isEmpty() && predicate.test(""))
+                || (input != null & input.isEmpty() && predicate.test("")))
                 return null;
             else if (input == null || input.isEmpty()) {
                 if (!console.isFileScanner())
@@ -133,8 +133,6 @@ public abstract class Request<T> {
     }
 
     public LocalDateTime askLocalDateTime(String name, String limitations, Predicate<LocalDateTime> predicate) {
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         while (true) {
             if (!console.isFileScanner())
                 console.writeln("Enter the date of " + name + " In the format 'dd-MM-yyyy HH:mm:ss' " + (limitations == null ? "" : ("; field restrictions: " + limitations)) + ":");

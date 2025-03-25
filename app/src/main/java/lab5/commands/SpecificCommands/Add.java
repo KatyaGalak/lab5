@@ -38,6 +38,7 @@ public class Add extends Command {
         }
 
         CollectionManager.getInstance().getTicketCollection().add(ticket);
+
         return new Response("Ticket added");
     }
 }

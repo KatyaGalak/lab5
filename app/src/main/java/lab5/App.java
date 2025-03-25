@@ -14,7 +14,7 @@ import lab5.io.console.*;
 
 public class App {
     public static void main(String[] args) {
-        try (Console console = new StandartConsole()) {
+         try (Console console = new StandartConsole()) {
             new Handler(console).run();
         } catch (Exception e) {
             System.err.println("[ERROR]" + Arrays.toString(e.getStackTrace()));
