@@ -10,10 +10,23 @@ import lab5.collection.ticket.Person;
 import java.util.function.Predicate;
 
 
+/**
+ * The TicketRequest class is responsible for handling user requests to input
+ * ticket information, including the ticket's name, coordinates, price, 
+ * refundability, ticket type, and associated person. It extends the Request class
+ * and provides methods to create a Ticket object based on user input.
+ */
 public class TicketRequest extends Request<Ticket> {
+
     private Console console;
 
+    /**
+     * Constructs a new TicketRequest with the specified console for user interaction.
+     *
+     * @param console the console instance used for input and output
+     */
     public TicketRequest(Console console) {
+
         super(console);
         this.console = console;
     }
@@ -22,20 +35,45 @@ public class TicketRequest extends Request<Ticket> {
         this.console = console;
     }
 
+    /**
+     * Prompts the user to input the ticket's coordinates.
+     *
+     * @return a Coordinates object representing the ticket's coordinates
+     */
     private Coordinates askCoordinates() {
+
         return new CoordinatesRequest(console).create();
     }
 
+    /**
+     * Prompts the user to input the ticket type.
+     *
+     * @return a TicketType object representing the ticket type
+     */
     private TicketType askTicketType() {
+
         return new TicketTypeRequest(console).create();
     }
 
+    /**
+     * Prompts the user to input the associated person's information.
+     *
+     * @return a Person object representing the associated person
+     */
     private Person askPerson() {
+
         return new PersonRequest(console).create();
     }
 
+    /**
+     * Creates a Ticket object based on user input for the ticket's name, coordinates,
+     * price, refundability, ticket type, and associated person.
+     *
+     * @return a Ticket object containing the user-provided values, or null if the input is invalid
+     */
     @Override
     public Ticket create() {
+
         Predicate<String> predicateName = x -> (x != null && x.length() > 0);
         String name = askString("Name Ticket", "The value cannot be missing or have a length of 0", predicateName);
 

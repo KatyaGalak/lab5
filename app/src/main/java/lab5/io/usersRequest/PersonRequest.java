@@ -9,7 +9,13 @@ import java.util.function.Predicate;
 
 import lab5.collection.ticket.Color;
 
+/**
+ * The PersonRequest class is responsible for handling user requests to input
+ * personal information, including the person's birthday, passport ID, and hair color.
+ * It extends the Request class and provides methods to create a Person object based on user input.
+ */
 public class PersonRequest extends Request<Person> {
+
     private static HashSet<String> passportIDPerson = new HashSet<>();
 
     public static boolean checkUnique(String passportID) {
@@ -27,12 +33,25 @@ public class PersonRequest extends Request<Person> {
         }
     }
 
+    /**
+     * Constructs a new PersonRequest with the specified console for user interaction.
+     *
+     * @param console the console instance used for input and output
+     */
     public PersonRequest(Console console) {
+
         super(console);
     }
 
+    /**
+     * Prompts the user to input the person's birthday, passport ID, and hair color,
+     * and creates a Person object based on the provided values.
+     *
+     * @return a Person object containing the user-provided values, or null if the input is invalid
+     */
     @Override
     public Person create() {
+
         Predicate<LocalDateTime> predicateLocalDataTime = x -> (x != null);
         LocalDateTime dataTime = askLocalDateTime("Person's birthday", "The value cannot be empty", predicateLocalDataTime);
 
@@ -56,7 +75,13 @@ public class PersonRequest extends Request<Person> {
         return person;
     }
 
+    /**
+     * Prompts the user to input the hair color of the person.
+     *
+     * @return the Color object representing the person's hair color, or null if the input is invalid
+     */
     private Color askColor() {
+
         Predicate<Color> predicateColor = x -> (x != null);
         Color color = askEnum("Person hair color", Color.class, predicateColor);
 

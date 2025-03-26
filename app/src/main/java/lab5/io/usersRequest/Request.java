@@ -7,17 +7,46 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * The Request class is an abstract class that serves as a base for handling user requests
+ * for various types of objects. It provides methods for prompting the user for input and
+ * validating that input based on specified criteria.
+ *
+ * @param <T> the type of object that this request will create
+ */
 public abstract class Request<T> {
-    //private Scanner scanner = ScannerManager.getScanner();
     private Console console;
 
+    /**
+     * Constructs a new Request with the specified console for user interaction.
+     *
+     * @param console the console instance used for input and output
+     */
     public Request(Console console) {
+
         this.console = console;
     }
 
+    /**
+     * Creates an object of type T based on user input.
+     *
+     * @return an object of type T created from user input
+     */
     public abstract T create();
 
+
+    /**
+     * Prompts the user for a numeric value of the specified type and validates it.
+     *
+     * @param name the name of the value being requested
+     * @param limitations any limitations on the value
+     * @param predicate a predicate to validate the input
+     * @param type the class type of the numeric value
+     * @param <S> the type of the numeric value
+     * @return the validated numeric value
+     */
     public <S extends Number> S askNumericValue(String name, String limitations, Predicate<S> predicate, Class<S> type) {
+
         while (true) {
             if (!console.isFileScanner()) {
                 console.writeln("Enter " + name + (limitations == null ? "" : ("; field restrictions: " + limitations)) + " :");
@@ -70,7 +99,16 @@ public abstract class Request<T> {
         }
     }
 
+    /**
+     * Prompts the user for a string value and validates it.
+     *
+     * @param name the name of the value being requested
+     * @param limitations any limitations on the value
+     * @param predicate a predicate to validate the input
+     * @return the validated string value
+     */
     public String askString(String name, String limitations, Predicate<String> predicate) {
+
 
         while (true) {
             if (!console.isFileScanner())
@@ -94,7 +132,16 @@ public abstract class Request<T> {
         }
     }
 
+    /**
+     * Prompts the user for a boolean value and validates it.
+     *
+     * @param name the name of the value being requested
+     * @param limitations any limitations on the value
+     * @param predicate a predicate to validate the input
+     * @return the validated boolean value
+     */
     public Boolean askBoolean(String name, String limitations, Predicate<String> predicate) {
+
         while (true) {
             if (!console.isFileScanner())
                 console.writeln("Enter " + name + (limitations == null ? "" : ("; field restrictions: " + limitations)) + " :");
@@ -106,7 +153,7 @@ public abstract class Request<T> {
             Boolean booleanInput = null;
 
             if (input == null && predicate.test(null)
-                || (input != null & input.isEmpty() && predicate.test("")))
+                || (input != null && input.isEmpty() && predicate.test("")))
                 return null;
             else if (input == null || input.isEmpty()) {
                 if (!console.isFileScanner())
@@ -132,7 +179,16 @@ public abstract class Request<T> {
         }
     }
 
+    /**
+     * Prompts the user for a LocalDateTime value and validates it.
+     *
+     * @param name the name of the value being requested
+     * @param limitations any limitations on the value
+     * @param predicate a predicate to validate the input
+     * @return the validated LocalDateTime value
+     */
     public LocalDateTime askLocalDateTime(String name, String limitations, Predicate<LocalDateTime> predicate) {
+
         while (true) {
             if (!console.isFileScanner())
                 console.writeln("Enter the date of " + name + " In the format 'dd-MM-yyyy HH:mm:ss' " + (limitations == null ? "" : ("; field restrictions: " + limitations)) + ":");
@@ -173,6 +229,15 @@ public abstract class Request<T> {
         }
     }
 
+    /**
+     * Prompts the user for an enum value and validates it.
+     *
+     * @param name the name of the value being requested
+     * @param enumClass the class of the enum type
+     * @param predicate a predicate to validate the input
+     * @param <E> the type of the enum
+     * @return the validated enum value
+     */
     public <E extends Enum<E> > E askEnum(String name, Class<E> enumClass, Predicate<E> predicate) {
         if (!console.isFileScanner())
                 console.writeln("Enter " + name + " :");

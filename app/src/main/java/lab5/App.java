@@ -12,15 +12,21 @@ import lab5.communication.Handler;
 import lab5.io.console.*;
 
 
+/**
+ * The App class serves as the entry point for the application. It initializes the
+ * application components and manages the overall flow of the program.
+ */
 public class App {
+    /**
+     * The main method is the entry point of the application.
+     *
+     * @param args command-line arguments passed to the application
+     */
     public static void main(String[] args) {
         try (Console console = new StandartConsole()) {
             new Handler(console).run();
         } catch (Exception e) {
             System.err.println("[ERROR]" + Arrays.toString(e.getStackTrace()));
         }
-
-       // FileManager fileManager = new CSVFileManager();
-        //fileManager.readFile();
     }
 }

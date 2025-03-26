@@ -18,12 +18,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.Scanner;
 import java.util.TreeSet;
 
-import lab5.io.IOHandler;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.Getter;
+
+import lab5.io.IOHandler;
 import lab5.collection.ticket.Coordinates;
 import lab5.collection.ticket.IDGenerator;
 import lab5.collection.ticket.Person;

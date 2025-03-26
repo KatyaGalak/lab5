@@ -10,7 +10,12 @@ import lab5.io.console.Console;
 
 @ToString
 @EqualsAndHashCode
+/**
+ * The Request class represents a user command request in the application. It encapsulates
+ * the command string, its associated arguments, and a console instance for output.
+ */
 public class Request {
+
     @Getter
     private String command;
 
@@ -20,17 +25,28 @@ public class Request {
     @Getter
     Console console;
 
-    //@Getter
-    //private List<Ticket> tickets;
-
+    /**
+     * Constructs a new Request with the specified command, arguments, and console.
+     *
+     * @param command the command string
+     * @param args the list of arguments associated with the command
+     * @param console the console instance for output
+     */
     public Request(final String command, final List<String> args, final Console console) {
+
         this.command = command;
         this.args = args;
         this.console = console;
-        //this.tickets = tickets;
     }
 
+    /**
+     * Constructs a new Request with the specified command and console.
+     *
+     * @param command the command string
+     * @param console the console instance for output
+     */
     public Request(final String command, final Console console) {
+
         this.command = command;
         this.console = console;
     }
