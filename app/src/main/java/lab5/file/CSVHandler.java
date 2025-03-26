@@ -30,8 +30,6 @@ import lab5.collection.ticket.Person;
 import lab5.collection.ticket.Ticket;
 import lab5.collection.ticket.TicketType;
 
-
-
 public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
     private static final TreeSet<Ticket> EMPTY_TREE_SET_TICKET = new TreeSet<>();
 
@@ -75,9 +73,6 @@ public class CSVHandler implements IOHandler<TreeSet<Ticket> > {
         TreeSet<Ticket> tickets = new TreeSet<>();
 
         try (Scanner scanner = fileHandler.getScanner()) {
-            //if (scanner.hasNextLine())
-               // scanner.nextLine();
-            
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 

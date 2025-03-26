@@ -1,8 +1,12 @@
 package lab5.commands.SpecificCommands;
 
+import java.util.Collection;
+
 import lab5.collection.CollectionManager;
+import lab5.collection.ticket.Ticket;
 import lab5.commands.Command;
 import lab5.io.connection.*;
+import lab5.io.usersRequest.PersonRequest;
 
 /**
  * Command to clear the collection of tickets.
@@ -26,6 +30,12 @@ public class Clear extends Command {
      */
     @Override
     public Response execute(Request request) {
+        Collection<Ticket> tickets = CollectionManager.getInstance().getTicketCollection();
+
+        for (Ticket ticket : tickets) {
+            PersonRequest.deletePassportID(ticket.getPerson().getPassportID());
+        }
+
         CollectionManager.getInstance().getTicketCollection().clear();
 
         return new Response("Collection has been successfully cleared.");

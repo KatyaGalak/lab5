@@ -10,19 +10,38 @@ import java.nio.file.Path;
 import lab5.io.console.Console;
 import lab5.collection.CollectionManager;
 import lab5.collection.ticket.Ticket;
-import lab5.commands.Command;
 import lab5.io.connection.*;
 
+/**
+ * The Handler class is responsible for processing user commands and managing the interaction
+ * between the console and the router. It implements the Runnable interface to allow for
+ * concurrent execution.
+ */
 public class Handler implements Runnable {
+
     protected final Console console;
     private final Router router;
 
+    /**
+     * Constructs a new Handler instance with the specified console.
+     *
+     * @param console the console used for input and output operations
+     */
     public Handler(Console console) {
+
         this.console = console;
         this.router = Router.getInstance();
     }
 
+    /**
+     * Prints the response to the console. If the response contains a message and no tickets,
+     * it prints the message. If there are tickets, it prints the message (if present) and
+     * then prints each ticket.
+     *
+     * @param response the response to be printed
+     */
     private void printConsole(Response response) {
+
         if (response.getMessage() != null && !response.getMessage().isBlank() && 
             (response.getTickets() == null || response.getTickets().size() == 0)) {
             console.writeln(response.getMessage());
@@ -34,7 +53,14 @@ public class Handler implements Runnable {
         }
     }
 
+    /**
+     * Parses the input data into a Request object. The input is split into command name and arguments.
+     *
+     * @param data the input data to be parsed
+     * @return a Request object containing the command name and arguments
+     */
     private Request parse(String data) {
+
         String[] parts = data.split("\s+", 2);
 
         String nameCommand = parts[0];
@@ -44,7 +70,14 @@ public class Handler implements Runnable {
         return new Request(nameCommand, args, console);
     }
 
+    /**
+     * Handles the input line by routing it through the router and processing the response.
+     * If the response indicates a script execution, it handles the script accordingly.
+     *
+     * @param line the input line to be handled
+     */
     protected void handle(String line) {
+
         if (line == null) 
             return;
         
@@ -86,8 +119,13 @@ public class Handler implements Runnable {
         }
     }
 
+    /**
+     * Runs the handler, starting the command processing loop. It prompts the user for input
+     * and handles each command until the input is null.
+     */
     @Override
     public void run() {
+
         console.writeln("Welcome! Let's start working with the collection. :)");
 
         CollectionManager.getInstance();

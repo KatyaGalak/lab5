@@ -5,6 +5,7 @@ import lab5.collection.ticket.Ticket;
 import lab5.commands.Command;
 import lab5.io.connection.Request;
 import lab5.io.connection.Response;
+import lab5.io.usersRequest.PersonRequest;
 import lab5.io.usersRequest.TicketRequest;
 
 /**
@@ -37,9 +38,14 @@ public class RemoveGreater extends Command {
             return new Response("[Error] Ticket object was created with an error. The item was not compared and added to the collection");
         }
 
-        CollectionManager.getInstance()
-                            .getTicketCollection()
-                            .removeIf(ticketCmp -> ticketCmp.compareTo(ticket) > 0);
+        for (Ticket cmpTicket : CollectionManager.getInstance().getTicketCollection()) {
+            if (cmpTicket.compareTo(ticket) > 0) {
+                PersonRequest.deletePassportID(cmpTicket.getPerson().getPassportID());
+                CollectionManager.getInstance().getTicketCollection().remove(cmpTicket);
+            }
+        }
+
+        PersonRequest.deletePassportID(ticket.getPerson().getPassportID());
 
         return new Response("Collection items greater than the specified value have been deleted (if there were any).");
     }

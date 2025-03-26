@@ -1,8 +1,12 @@
 package lab5.commands.SpecificCommands;
 
 import lab5.collection.CollectionManager;
+import lab5.collection.ticket.Ticket;
 import lab5.commands.Command;
 import lab5.io.connection.*;
+import lab5.io.usersRequest.PersonRequest;
+
+import java.util.Optional;
 
 /**
  * Command to remove a ticket from the collection by its ID.
@@ -42,7 +46,14 @@ public class RemoveById extends Command {
                                 .anyMatch(ticket -> ticket.getId() == delID))
             return new Response("There is no ticket with this ID");
 
-        CollectionManager.getInstance().getTicketCollection().removeIf(ticket -> ticket.getId() == delID);
+        Optional<Ticket> ticketToDel = CollectionManager.getInstance().getTicketCollection().stream()
+            .filter(ticket -> ticket.getId() == delID)
+            .findFirst();
+
+        ticketToDel.ifPresent(ticket -> {
+            PersonRequest.deletePassportID(ticket.getPerson().getPassportID());
+            CollectionManager.getInstance().getTicketCollection().remove(ticket);
+        });
 
         return new Response("Ticket with ID: " + delID + " deleted");
     }
