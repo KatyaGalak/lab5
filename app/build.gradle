@@ -50,17 +50,16 @@ application {
     mainClass = 'lab5.App'
 }
 
-// Задача для создания толстого JAR-файла
 tasks.register('fatJar', Jar) {
-    archiveBaseName = 'AppFat' // Имя толстого JAR-файла
+    archiveBaseName = 'AppFat'
     manifest {
-        attributes 'Main-Class': 'lab5.App' // Указываем главный класс в манифесте
+        attributes 'Main-Class': 'lab5.App'
     }
     from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } // Добавляем все зависимости
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-    with jar // Включаем стандартные настройки JAR
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE // Указываем, как обрабатывать дубликаты
+    with jar
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.named('test') {

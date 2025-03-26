@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import lab5.communication.exceptions.AlreadyAddedScript;
 import lab5.io.console.Console;
 
 /**
@@ -89,7 +90,13 @@ public class ScriptHandler extends Handler implements AutoCloseable {
 
             String line;
             while((line = console.read()) != null) {
-                handle(line);
+                try {
+                    handle(line);
+                } catch (AlreadyAddedScript e) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                
             }
         } catch (Exception e) {
             console.writeln("Something went wrong: " + e.getMessage());

@@ -12,6 +12,8 @@ import lab5.collection.CollectionManager;
 import lab5.collection.ticket.Ticket;
 import lab5.io.connection.*;
 
+import lab5.communication.exceptions.AlreadyAddedScript;
+
 /**
  * The Handler class is responsible for processing user commands and managing the interaction
  * between the console and the router. It implements the Runnable interface to allow for
@@ -76,7 +78,7 @@ public class Handler implements Runnable {
      *
      * @param line the input line to be handled
      */
-    protected void handle(String line) {
+    protected void handle(String line) throws AlreadyAddedScript {
 
         if (line == null) 
             return;
@@ -102,7 +104,8 @@ public class Handler implements Runnable {
 
             if (ScriptHandler.getOpeningScripts().contains(scriptPath.getFileName().toString())) {
                 console.writeln("Recursion detected, repeated call: " + scriptPath.getFileName().toString());
-                return;
+                //return;
+                throw new AlreadyAddedScript("Completing the execution of the current script (Recursion detected)");
             }
 
             try (ScriptHandler scriptHandler = new ScriptHandler(console, scriptPath)) {
@@ -132,7 +135,11 @@ public class Handler implements Runnable {
 
         String line;
         while((line = console.read("Enter the Command: ")) != null) {
-            handle(line);
+            try {
+                handle(line);
+            } catch (AlreadyAddedScript e) {
+                //return;
+            }
         }
     }
 }
